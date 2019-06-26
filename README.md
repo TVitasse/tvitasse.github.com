@@ -1,2 +1,2 @@
-# tvitasse.github.com
+# tvitasse.github.io
 Testing Github Pages
