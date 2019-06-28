@@ -607,6 +607,13 @@
 		display: inline-block;
 		position: relative;
 
+		.center-cropped {
+		  object-fit: none; /* Do not scale the image */
+		  object-position: center; /* Center the image within the element */
+		  height: 472px;
+		  width: 2160px;
+		}
+
 		&[data-position] {
 			img {
 				@include vendor('object-fit', 'cover');
