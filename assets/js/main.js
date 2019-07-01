@@ -4,6 +4,25 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+document.addEventListener('DOMContentLoaded', function() {
+		var city = "lyon"
+		document.getElementById("city").innerHTML = city.charAt(0).toUpperCase() + city.slice(1);
+
+    var request = new XMLHttpRequest();
+		request.onreadystatechange = function(){
+			if (this.readyState == XMLHttpRequest.DONE && this.status == 200){
+				var response = JSON.parse(this.responseText);
+				var condition_img = "<img id='condition_img' class='center' src='"+response.current_condition.icon_big+"' alt='"+response.current_condition.condition+"' />"
+				document.getElementById("condition").innerHTML = condition_img;
+				document.getElementById("temperature").innerHTML = response.current_condition.tmp + "°C";
+				document.getElementById("date").innerHTML = response.current_condition.date;
+				document.getElementById("time").innerHTML = response.current_condition.hour;
+			}
+		};
+		request.open("GET", "https://www.prevision-meteo.ch/services/json/".concat(city));
+		request.send();
+}, false);
+
 (function($) {
 
 	var $window = $(window),
