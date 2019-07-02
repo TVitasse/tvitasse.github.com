@@ -10,12 +10,17 @@
 #temperature {
 	font-weight: 700;
 	line-height: 1em;
-	margin: 0 0 0.5625em 0;
+	/* margin: 0 0 0.5625em 0; */
 	border: 0;
 	color: inherit;
 	text-decoration: none;
 	/* color: #4acaa8; */
 	font-size: 3.5em;
+
+	height: 125px;
+	line-height: 125px;
+	text-align: center;
+	vertical-align: middle;
 }
 
 #condition_img {
