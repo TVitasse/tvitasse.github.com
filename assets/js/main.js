@@ -1,5 +1,5 @@
 /*
-	Read Only by HTML5 UP
+	Editorial by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
   request.onreadystatechange = function() {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
       var response = JSON.parse(this.responseText);
-      var condition_img = "<img id='condition_img' class='center' src='" + response.current_condition.icon_big + "' alt='" + response.current_condition.condition + "' />"
+			// id='condition_img'
+      var condition_img = "<img class='condition_img center' src='" + response.current_condition.icon_big + "' alt='" + response.current_condition.condition + "' />"
       document.getElementById("condition").innerHTML = condition_img;
       document.getElementById("temperature").innerHTML = response.current_condition.tmp + "°C";
       document.getElementById("date").innerHTML = response.current_condition.date;
@@ -25,154 +26,257 @@ document.addEventListener('DOMContentLoaded', function() {
 
 (function($) {
 
-  var $window = $(window),
-    $body = $('body'),
-    $header = $('#header'),
-    $titleBar = null,
-    $nav = $('#nav'),
-    $wrapper = $('#wrapper');
+	var	$window = $(window),
+		$head = $('head'),
+		$body = $('body');
 
-  // Breakpoints.
-  breakpoints({
-    xlarge: ['1281px', '1680px'],
-    large: ['1025px', '1280px'],
-    medium: ['737px', '1024px'],
-    small: ['481px', '736px'],
-    xsmall: [null, '480px'],
-  });
+	// Breakpoints.
+		breakpoints({
+			xlarge:   [ '1281px',  '1680px' ],
+			large:    [ '981px',   '1280px' ],
+			medium:   [ '737px',   '980px'  ],
+			small:    [ '481px',   '736px'  ],
+			xsmall:   [ '361px',   '480px'  ],
+			xxsmall:  [ null,      '360px'  ],
+			'xlarge-to-max':    '(min-width: 1681px)',
+			'small-to-xlarge':  '(min-width: 481px) and (max-width: 1680px)'
+		});
 
-  // Play initial animations on page load.
-  $window.on('load', function() {
-    window.setTimeout(function() {
-      $body.removeClass('is-preload');
-    }, 100);
-  });
+	// Stops animations/transitions until the page has ...
 
-  // Tweaks/fixes.
+		// ... loaded.
+			$window.on('load', function() {
+				window.setTimeout(function() {
+					$body.removeClass('is-preload');
+				}, 100);
+			});
 
-  // Polyfill: Object fit.
-  if (!browser.canUse('object-fit')) {
+		// ... stopped resizing.
+			var resizeTimeout;
 
-    $('.image[data-position]').each(function() {
+			$window.on('resize', function() {
 
-      var $this = $(this),
-        $img = $this.children('img');
+				// Mark as resizing.
+					$body.addClass('is-resizing');
 
-      // Apply img as background.
-      $this
-        .css('background-image', 'url("' + $img.attr('src') + '")')
-        .css('background-position', $this.data('position'))
-        .css('background-size', 'cover')
-        .css('background-repeat', 'no-repeat');
+				// Unmark after delay.
+					clearTimeout(resizeTimeout);
 
-      // Hide img.
-      $img
-        .css('opacity', '0');
+					resizeTimeout = setTimeout(function() {
+						$body.removeClass('is-resizing');
+					}, 100);
 
-    });
+			});
 
-  }
+	// Fixes.
 
-  // Header Panel.
+		// Object fit images.
+			if (!browser.canUse('object-fit')
+			||	browser.name == 'safari')
+				$('.image.object').each(function() {
 
-  // Nav.
-  var $nav_a = $nav.find('a');
+					var $this = $(this),
+						$img = $this.children('img');
 
-  $nav_a
-    .addClass('scrolly')
-    .on('click', function() {
+					// Hide original image.
+						$img.css('opacity', '0');
 
-      var $this = $(this);
+					// Set background.
+						$this
+							.css('background-image', 'url("' + $img.attr('src') + '")')
+							.css('background-size', $img.css('object-fit') ? $img.css('object-fit') : 'cover')
+							.css('background-position', $img.css('object-position') ? $img.css('object-position') : 'center');
 
-      // External link? Bail.
-      if ($this.attr('href').charAt(0) != '#')
-        return;
+				});
 
-      // Deactivate all links.
-      $nav_a.removeClass('active');
+	// Sidebar.
+		var $sidebar = $('#sidebar'),
+			$sidebar_inner = $sidebar.children('.inner');
 
-      // Activate link *and* lock it (so Scrollex doesn't try to activate other links as we're scrolling to this one's section).
-      $this
-        .addClass('active')
-        .addClass('active-locked');
+		// Inactive by default on <= large.
+			breakpoints.on('<=large', function() {
+				$sidebar.addClass('inactive');
+			});
 
-    })
-    .each(function() {
+			breakpoints.on('>large', function() {
+				$sidebar.removeClass('inactive');
+			});
 
-      var $this = $(this),
-        id = $this.attr('href'),
-        $section = $(id);
+		// Hack: Workaround for Chrome/Android scrollbar position bug.
+			if (browser.os == 'android'
+			&&	browser.name == 'chrome')
+				$('<style>#sidebar .inner::-webkit-scrollbar { display: none; }</style>')
+					.appendTo($head);
 
-      // No section for this link? Bail.
-      if ($section.length < 1)
-        return;
+		// Toggle.
+			$('<a href="#sidebar" class="toggle">Toggle</a>')
+				.appendTo($sidebar)
+				.on('click', function(event) {
 
-      // Scrollex.
-      $section.scrollex({
-        mode: 'middle',
-        top: '5vh',
-        bottom: '5vh',
-        initialize: function() {
+					// Prevent default.
+						event.preventDefault();
+						event.stopPropagation();
 
-          // Deactivate section.
-          $section.addClass('inactive');
+					// Toggle.
+						$sidebar.toggleClass('inactive');
 
-        },
-        enter: function() {
+				});
 
-          // Activate section.
-          $section.removeClass('inactive');
+		// Events.
 
-          // No locked links? Deactivate all links and activate this section's one.
-          if ($nav_a.filter('.active-locked').length == 0) {
+			// Link clicks.
+				$sidebar.on('click', 'a', function(event) {
 
-            $nav_a.removeClass('active');
-            $this.addClass('active');
+					// >large? Bail.
+						if (breakpoints.active('>large'))
+							return;
 
-          }
+					// Vars.
+						var $a = $(this),
+							href = $a.attr('href'),
+							target = $a.attr('target');
 
-          // Otherwise, if this section's link is the one that's locked, unlock it.
-          else if ($this.hasClass('active-locked'))
-            $this.removeClass('active-locked');
+					// Prevent default.
+						event.preventDefault();
+						event.stopPropagation();
 
-        }
-      });
+					// Check URL.
+						if (!href || href == '#' || href == '')
+							return;
 
-    });
+					// Hide sidebar.
+						$sidebar.addClass('inactive');
 
-  // Title Bar.
-  $titleBar = $(
-      '<div id="titleBar">' +
-      '<a href="#header" class="toggle"></a>' +
-      '<span class="title">' + $('#logo').html() + '</span>' +
-      '</div>'
-    )
-    .appendTo($body);
+					// Redirect to href.
+						setTimeout(function() {
 
-  // Panel.
-  $header
-    .panel({
-      delay: 500,
-      hideOnClick: true,
-      hideOnSwipe: true,
-      resetScroll: true,
-      resetForms: true,
-      side: 'right',
-      target: $body,
-      visibleClass: 'header-visible'
-    });
+							if (target == '_blank')
+								window.open(href);
+							else
+								window.location.href = href;
 
-  // Scrolly.
-  $('.scrolly').scrolly({
-    speed: 1000,
-    offset: function() {
+						}, 500);
 
-      if (breakpoints.active('<=medium'))
-        return $titleBar.height();
+				});
 
-      return 0;
+			// Prevent certain events inside the panel from bubbling.
+				$sidebar.on('click touchend touchstart touchmove', function(event) {
 
-    }
-  });
+					// >large? Bail.
+						if (breakpoints.active('>large'))
+							return;
+
+					// Prevent propagation.
+						event.stopPropagation();
+
+				});
+
+			// Hide panel on body click/tap.
+				$body.on('click touchend', function(event) {
+
+					// >large? Bail.
+						if (breakpoints.active('>large'))
+							return;
+
+					// Deactivate.
+						$sidebar.addClass('inactive');
+
+				});
+
+		// Scroll lock.
+		// Note: If you do anything to change the height of the sidebar's content, be sure to
+		// trigger 'resize.sidebar-lock' on $window so stuff doesn't get out of sync.
+
+			$window.on('load.sidebar-lock', function() {
+
+				var sh, wh, st;
+
+				// Reset scroll position to 0 if it's 1.
+					if ($window.scrollTop() == 1)
+						$window.scrollTop(0);
+
+				$window
+					.on('scroll.sidebar-lock', function() {
+
+						var x, y;
+
+						// <=large? Bail.
+							if (breakpoints.active('<=large')) {
+
+								$sidebar_inner
+									.data('locked', 0)
+									.css('position', '')
+									.css('top', '');
+
+								return;
+
+							}
+
+						// Calculate positions.
+							x = Math.max(sh - wh, 0);
+							y = Math.max(0, $window.scrollTop() - x);
+
+						// Lock/unlock.
+							if ($sidebar_inner.data('locked') == 1) {
+
+								if (y <= 0)
+									$sidebar_inner
+										.data('locked', 0)
+										.css('position', '')
+										.css('top', '');
+								else
+									$sidebar_inner
+										.css('top', -1 * x);
+
+							}
+							else {
+
+								if (y > 0)
+									$sidebar_inner
+										.data('locked', 1)
+										.css('position', 'fixed')
+										.css('top', -1 * x);
+
+							}
+
+					})
+					.on('resize.sidebar-lock', function() {
+
+						// Calculate heights.
+							wh = $window.height();
+							sh = $sidebar_inner.outerHeight() + 30;
+
+						// Trigger scroll.
+							$window.trigger('scroll.sidebar-lock');
+
+					})
+					.trigger('resize.sidebar-lock');
+
+				});
+
+	// Menu.
+		var $menu = $('#menu'),
+			$menu_openers = $menu.children('ul').find('.opener');
+
+		// Openers.
+			$menu_openers.each(function() {
+
+				var $this = $(this);
+
+				$this.on('click', function(event) {
+
+					// Prevent default.
+						event.preventDefault();
+
+					// Toggle.
+						$menu_openers.not($this).removeClass('active');
+						$this.toggleClass('active');
+
+					// Trigger resize (sidebar lock).
+						$window.triggerHandler('resize.sidebar-lock');
+
+				});
+
+			});
 
 })(jQuery);
