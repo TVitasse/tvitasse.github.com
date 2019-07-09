@@ -6,8 +6,16 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   var city = "lyon"
+  var pos = document.getElementById("geoloc");
   document.getElementById("city").innerHTML = city.charAt(0).toUpperCase() + city.slice(1);
 
+  new getLocalWeather(city);
+
+  // new getLocation(pos);
+
+}, false);
+
+function getLocalWeather(cityname){
   var request = new XMLHttpRequest();
   request.onreadystatechange = function() {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
@@ -20,10 +28,22 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("time").innerHTML = response.current_condition.hour;
     }
   };
-  request.open("GET", "https://www.prevision-meteo.ch/services/json/".concat(city));
+  request.open("GET", "https://www.prevision-meteo.ch/services/json/".concat(cityname));
   request.send();
-}, false);
+};
 
+function getLocation(pos){
+  if (navigator.geolocation) {
+     navigator.geolocation.getCurrentPosition(function(position){
+       pos.innerHTML = "So you live "+"<a target=\"_blank\" href=\"http://www.google.com/maps/@"+position.coords.latitude+","+position.coords.longitude+"z\">there</a> ?";
+     });
+   } else {
+     pos.innerHTML = "nowhere";
+   }
+};
+
+
+// Original template code
 (function($) {
 
 	var	$window = $(window),
