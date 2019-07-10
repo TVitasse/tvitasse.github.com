@@ -35,7 +35,7 @@ function getLocalWeather(cityname){
 function getLocation(pos){
   if (navigator.geolocation) {
      navigator.geolocation.getCurrentPosition(function(position){
-       pos.innerHTML = "So you live "+"<a target=\"_blank\" href=\"http://www.google.com/maps/@"+position.coords.latitude+","+position.coords.longitude+"z\">there</a> ?";
+       pos.innerHTML = "So you live "+"<a target=\"_blank\"  title=\"\" href=\"http://www.google.com/maps/@"+position.coords.latitude+","+position.coords.longitude+"z\">there</a> ?";
      });
    } else {
      pos.innerHTML = "nowhere";

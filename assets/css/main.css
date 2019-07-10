@@ -32,6 +32,11 @@ footer, header, hgroup, menu, nav, section {
 		text-align: center;
 	}
 
+	#start, #pause, #resume, #stop {
+		height: 3.5em;
+		width: 10em;
+	}
+
 	.temperature {
 		border: 0;
 		color: inherit;
