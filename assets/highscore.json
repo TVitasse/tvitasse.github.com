@@ -1,0 +1,14 @@
+[
+    {
+        "player": "Hydrid",
+        "score": 9999
+    },
+    {
+        "player": "John Doe",
+        "score": 400
+    },
+		{
+				"player": "Bob",
+				"score": 0
+		}
+]
