@@ -19,12 +19,13 @@
 		<link rel="icon" href="images/favicon/android-chrome-192x192.png">
 
     <!-- jQuery and Blockrain.js -->
-    <script src="assets/js/jquery.min.js"></script>
+    <!-- <script src="assets/js/jquery.min.js"></script> -->
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <link rel="stylesheet" href="assets/blockrain.js/dist/blockrain.css">
     <script src="assets/blockrain.js/dist/blockrain.jquery.js"></script>
-    <!-- <script>
-        $('.game').blockrain();
-    </script> -->
+
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	</head>
 	<body class="is-preload">
@@ -53,10 +54,7 @@
 											<p>Waka waka waka what ?</p>
 										</header>
                     <div class="row">
-          				    <div class="col-4 col-12-xsmall">
-                        <div class="game" style="width:300px; height:495px;"></div>
-                      </div>
-                      <div class="col-6 col-6-xsmall">
+											<div class="col-2 col-6-xsmall">
                         <ul class="actions"><a id="start" class="button primary">Start</a></ul>
                         <ul class="actions"><a id="pause" class="button">Pause</a></ul>
                         <ul class="actions"><a id="resume" class="button">Resume</a></ul>
@@ -67,6 +65,25 @@
 												</br/>
 												</p>
                       </div>
+          				    <div class="col-4 col-6-xsmall">
+                        <div class="game" style="width:300px; height:495px;"></div>
+                      </div>
+											<div class="modal" style="display: none;"></div>
+											<!-- <div class="col-4 col-12-xsmall">
+												<h3>High Score Board</h3>
+												<div class="table-wrapper">
+													<table id="scoreBoard">
+														<thead>
+															<tr>
+																<th>Name</th>
+																<th>Score</th>
+															</tr>
+														</thead>
+														<tbody id="bodyscore">
+														</tbody>
+													</table>
+												</div>
+											</div> -->
                     </div>
 									</div>
 								</section>

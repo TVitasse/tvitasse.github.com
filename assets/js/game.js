@@ -30,12 +30,22 @@ const $cssButton = {
     }
 
 $window.on('load', function() {
-  displayHighscore();
+  //displayHighscore();
     $game.blockrain({
       theme: "gameboy",
       onGameOver: function(score) {
-        //TODO : check if the player has a good enough score to go in the scoreboard
-        addHighscore(score)
+        // readhighScore("assets/highscore.json").then(function(scores) {
+        //   var flag = false;
+        //   var index = 0;
+        //   while (!flag) {
+        //     if(scores[index]['score']<=score) {
+        //       flag = true;
+        //       addHighscore(score, index, scores);
+        //     } else {
+        //       index++;
+        //     }
+        //   }
+        // });
       }
     });
     $game.blockrain('autoplay', false);
@@ -48,14 +58,20 @@ $window.on('load', function() {
     $('.blockrain-touch-drop').hide();
 });
 
+//TODO : utiliser des appendChild
 function displayHighscore() {
-  //scores = readhighScore("assets/highscore.json");
   readhighScore("assets/highscore.json").then(function(scores) {
+    $("tbody tr").empty();
     $.each(scores, function(i){
-       var newRow = "<tr><td>"+this['player']+"</td><td>"+this['score']+"</td></tr>";
-       $("tbody tr:last").after(newRow);
+      var trNode = document.createElement("tr");
+      var playerNode = document.createElement("td");
+      var scoreNode = document.createElement("td");
+      playerNode.textContent = this['player']
+      scoreNode.textContent = this['score']
+       trNode.appendChild(playerNode);
+       trNode.appendChild(scoreNode);
+       document.getElementById("bodyscore").appendChild(trNode);
      })
-     $("tbody tr:first").remove();
   });
 }
 
@@ -74,7 +90,8 @@ function readhighScore(pathJSON) {
     return deferred.promise();
 }
 
-function addHighscore(score) {
+//NOTE : https://stackoverflow.com/questions/20948155/simple-save-to-json-file-with-jquery
+function addHighscore(score, position, scores) {
   var modalContent = "<div style=\"text-align:center\">You got "+score+" points ! <br/> Do you want to be in the highscore board ?</div>"
   + "<br/><input type=\"text\" name=\"player-name\" id=\"player-name\" value=\"\" placeholder=\"Name\" <br/>";
   $(".modal").html(modalContent);
@@ -99,13 +116,12 @@ function addHighscore(score) {
         $( this ).css($cssButton);
       },
       click: function() {
-        //TODO :
         const newPlayer = {
           player : $( "#player-name" ).val(),
           score : score
         }
-        //Add the new player to the Board
-        insertNewPlayer(newPlayer);
+        //Add the new player to the Board and insert it at the right place in the JSON file
+        insertNewPlayer(newPlayer, position, scores);
         $( this ).dialog( "close" );
       }
     }
@@ -113,8 +129,24 @@ function addHighscore(score) {
   });
 };
 
-function insertNewPlayer(newPlayer) {
-  console.log(newPlayer);
+//Add the current player to the board and update the score board displayed
+function insertNewPlayer(newPlayer, position, scores) {
+  scores.splice(position, 0, newPlayer);
+  scores.splice(-1,1);
+  console.log(scores);
+
+  console.log("ready for ajax request")
+  $.ajax({
+    url: 'assets/highscore.json',
+    dataType : 'json',
+    type : 'POST',
+    data: JSON.stringify(scores)
+  }).done(function(response){
+    console.log("ok");
+    displayHighscore();
+  }).fail(function(error) {
+    console.log(error);
+  });
 };
 
 $( "#start" ).click(function() {
