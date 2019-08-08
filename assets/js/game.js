@@ -32,22 +32,22 @@ var $started = false,
     $playing = false
 
 $window.on('load', function() {
-  //displayHighscore();
+  displayHighscore();
     $game.blockrain({
       theme: "gameboy",
       onGameOver: function(score) {
-        // readhighScore("assets/highscore.json").then(function(scores) {
-        //   var flag = false;
-        //   var index = 0;
-        //   while (!flag) {
-        //     if(scores[index]['score']<=score) {
-        //       flag = true;
-        //       addHighscore(score, index, scores);
-        //     } else {
-        //       index++;
-        //     }
-        //   }
-        // });
+        readhighScore("assets/highscore.json").then(function(scores) {
+          var flag = false;
+          var index = 0;
+          while (!flag) {
+            if(scores[index]['score']<=score) {
+              flag = true;
+              addHighscore(score, index, scores);
+            } else {
+              index++;
+            }
+          }
+        });
       }
     });
     $game.blockrain('autoplay', false);
