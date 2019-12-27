@@ -28,6 +28,8 @@ const $cssButton = {
       "text-transform": "uppercase",
       "white-space": "nowrap"
     }
+var $started = false,
+    $playing = false
 
 $window.on('load', function() {
   //displayHighscore();
@@ -150,18 +152,28 @@ function insertNewPlayer(newPlayer, position, scores) {
 };
 
 $( "#start" ).click(function() {
+  if($playing == false){
     $game.blockrain('resume');
     $game.blockrain('restart');
+    $( "#start").text("Stop");
+    $started = true;
+    $playing = true;
+  } else {
+    $game.blockrain('gameover');
+    $( "#start").text("Start");
+    $playing = false;
+    $started = false;
+  }
 });
 
 $( "#pause" ).click(function() {
-  $game.blockrain('pause');
-});
-
-$( "#resume" ).click(function() {
-  $game.blockrain('resume');
-});
-
-$( "#stop" ).click(function() {
-  $game.blockrain('gameover');
+  if ($started){
+    $game.blockrain('pause');
+    $( "#pause" ).text("Resume");
+    $started = false;
+  } else {
+    $game.blockrain('resume');
+    $( "#pause" ).text("Pause");
+    $started = true;
+  }
 });
