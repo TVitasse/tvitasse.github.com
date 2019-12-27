@@ -26,6 +26,10 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
+	.copyleft {
+	  display:inline-block;
+	  transform: rotate(180deg);
+	}
 	.credits {
 		font-size: 13px;
 		font-style: italic;
