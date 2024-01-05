@@ -13,9 +13,18 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700">
+		<script
+			src="https://code.jquery.com/jquery-3.7.1.min.js"
+			integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			crossorigin="anonymous">
+		</script>
+    	<!-- <script> 
+			$(function(){
+				$("#includedContent").load("menuFooter.html"); 
+			});
+		</script> -->
 	</head>
 	<body class="is-preload">
-
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -28,8 +37,8 @@
 								<a href="index.html" class="logo"><strong>About me</strong></a>
 								<ul class="icons">
 									<li><a href="https://twitter.com/TVitasse" class="icon brands fa-twitter" title="Twitter"><span class="label">Twitter</span></a></li>
-                  <li><a href="https://www.facebook.com/tom.vitasse" class="icon brands fa-facebook-f" title="Facebook"><span class="label">Facebook</span></a></li>
-                  <li><a href="mailto:tom.vitasse@gmail.com" class="icon solid fa-envelope" title="Email"><span class="label">Email</span></a></li>
+									<li><a href="https://www.facebook.com/tom.vitasse" class="icon brands fa-facebook-f" title="Facebook"><span class="label">Facebook</span></a></li>
+									<li><a href="mailto:tom.vitasse@gmail.com" class="icon solid fa-envelope" title="Email"><span class="label">Email</span></a></li>
 								</ul>
 							</header>
 
@@ -39,7 +48,7 @@
 										<h1>A quick resume</h1>
 									</header>
 
-									<p>For now, here is my <a href="https://drive.google.com/open?id=1oP8Vtu7xjkvY7h35swC_IvMX47pBMu-B" target="_blank"></a>résumé. For more information, see my LinkedIn profile in the <a href="https://tomvitasse.me/accounts.html">"Where to find me" section</a>
+									<p>For now, here is my <a href="https://drive.google.com/open?id=1oP8Vtu7xjkvY7h35swC_IvMX47pBMu-B" target="_blank">résumé</a>. For more information, see my LinkedIn profile in the <a href="https://tomvitasse.me/accounts.html">"Where to find me"</a> section.
 									</p>
 									<hr class="major" />
 
@@ -47,7 +56,7 @@
 										<header class="major">
 											<h2>My journey</h2>
 										</header>
-											<p>Coming soon !</p>
+											<p>Coming soon!</p>
 											<blockquote>Patience you must have my young padawan.</blockquote>
 									</section>
 									<hr class="major" />
@@ -60,12 +69,9 @@
 											<p>Not-so-random content, mainly for testing GIF's integrations in this template.</p>
 											<div class="posts">
 												<article>
-													<a href="wrapped2019.html" class="image"><img src="https://media.giphy.com/media/3oGRFjm63p2QC1x8eQ/giphy.gif" alt="" /></a>
-													<h3>Being part of Marcus & Trane</h3>
-													<p>We do cool projects together and we have a lot of fun at <a href="https://marcusandtrane.com/">M&T</a> with our homies.</p>
-													<!-- <ul class="actions">
-														<li><a href="#" class="button">More</a></li>
-													</ul> -->
+													<a href="#" class="image"><img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif" alt="" /></a>
+													<h3>Working on this website</h3>
+													<p>Because it has been a long time since I haven't written code!</p>
 												</article>
 												<article>
 													<a href="#" class="image"><img src="https://media.giphy.com/media/qYTn6z4fjSqXK/giphy.gif" alt="" /></a>
@@ -83,52 +89,28 @@
 								</section>
 						</div>
 					</div>
-
 					<!-- Sidebar -->
-						<div id="sidebar">
-							<div class="inner">
-
-								<!-- Search -->
-									<!-- <section id="search" class="alt">
-										<form method="post" action="#">
-											<input type="text" name="query" id="query" placeholder="Search" />
-										</form>
-									</section> -->
-
-									<!-- Menu -->
-										<nav id="menu">
-											<header class="major">
-												<h2>Menu</h2>
-											</header>
-											<ul>
-												<li><a href="index.html">Homepage</a></li>
-												<li><a href="about_me.html">About me</a></li>
-												<!-- <li><a href="elements.html">Elements</a></li> -->
-												<!-- <li>
-													<span class="opener">Submenu</span>
-													<ul>
-														<li><a href="#">Lorem Dolor</a></li>
-													</ul>
-												</li> -->
-												<li><a href="accounts.html">Where to find me</a></li>
-												<li>
-													<a href="experimentations.html">Experimentations</a>
-												</li>
-											</ul>
-										</nav>
-
-							<!-- Footer -->
-								<footer id="footer">
-									<p class="copyright"><span class="copyleft">&copy;</span> No rights reserved. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-								</footer>
-
+					<div id="sidebar">
+						<div class="inner" id="includedContent">
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="index.html">Homepage</a></li>
+									<li><a href="about_me.html">About me</a></li>
+									<li><a href="accounts.html">Where to find me</a></li>
+									<li><a href="experimentations.html">Experimentations</a></li>
+								</ul>
+							</nav>
+							<footer id="footer">
+								<p class="copyright"><span class="copyleft">&copy;</span> No rights reserved. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+							</footer>
 						</div>
 					</div>
-
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
